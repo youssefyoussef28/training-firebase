@@ -7,6 +7,8 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  query,
+  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -26,11 +28,17 @@ const db = getFirestore();
 // collection ref
 const colRef = collection(db, "books");
 
+// queries
+
+const q = query(colRef, where("author", "==", "patrick rothfuss"));
+
 // Gets once collection data
+
 // getDocs(colRef).then((snapshot) => {});
 
-// Runs once initially and then runs every-time there is a change in this collection - REAL TIME
-onSnapshot(colRef, (snapshot) => {
+// Runs once initially & runs every-time Change - real-time
+
+onSnapshot(q, (snapshot) => {
   let books = [];
   snapshot.docs.forEach((doc) => {
     books.push({ ...doc.data(), id: doc.id });
